@@ -5,7 +5,7 @@ namespace Catalog.Service
 {
     public static class Extensions
     {
-        //Automapper woulbe be better here
+        //Automapper would be better here
         public static ItemDTO AsDTO(this Item item)
         {
             return new ItemDTO(item.Id, item.Name, 
