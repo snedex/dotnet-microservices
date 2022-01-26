@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
 using Catalog.Service.Data;
 using Catalog.Service.Entities;
 using Catalog.Service.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Service.Controllers;
 
@@ -9,7 +9,12 @@ namespace Catalog.Service.Controllers;
 [ApiController]
 public class ItemsController : ControllerBase
 {
-    private readonly ItemRepository itemRepo = new ItemRepository();
+    private readonly IItemRepository itemRepo;
+
+    public ItemsController(IItemRepository repo)
+    {
+        this.itemRepo = repo;
+    }
 
     [HttpGet]
     public async Task<IEnumerable<ItemDTO>> GetAsync()
@@ -28,11 +33,12 @@ public class ItemsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ItemDTO>> PostAsync(CreateItemDTO createItem)
     {
-        var item = new Item() {
-            Id = Guid.NewGuid(), 
-            Name = createItem.Name, 
-            Description = createItem.Description, 
-            Price = createItem.Price, 
+        var item = new Item()
+        {
+            Id = Guid.NewGuid(),
+            Name = createItem.Name,
+            Description = createItem.Description,
+            Price = createItem.Price,
             CreatedDate = DateTimeOffset.UtcNow
         };
 
@@ -43,11 +49,11 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task <IActionResult> PutAsync(Guid id, UpdateItemDTO updateItem)
+    public async Task<IActionResult> PutAsync(Guid id, UpdateItemDTO updateItem)
     {
         var item = await itemRepo.GetAsync(id);
 
-        if(item == null)
+        if (item == null)
             return NotFound();
 
         item.Name = updateItem.Name;
@@ -62,9 +68,9 @@ public class ItemsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
-       var item = await itemRepo.GetAsync(id);
+        var item = await itemRepo.GetAsync(id);
 
-        if(item == null)
+        if (item == null)
             return NotFound();
 
         await itemRepo.RemoveAsync(item.Id);

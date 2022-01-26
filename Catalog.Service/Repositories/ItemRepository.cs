@@ -3,7 +3,8 @@ using Catalog.Service.Entities;
 
 namespace Catalog.Service.Repositories
 {
-    public class ItemRepository
+
+    public class ItemRepository : IItemRepository
     {
         //MongoDB collection, almost equivalent to a table
         private const string collectionName = "items";
@@ -11,10 +12,8 @@ namespace Catalog.Service.Repositories
 
         private readonly FilterDefinitionBuilder<Item> filterBuilder = Builders<Item>.Filter;
 
-        public ItemRepository()
+        public ItemRepository(IMongoDatabase database)
         {
-            var mongoClient = new MongoClient("mongodb://192.168.0.183:27017");
-            var database = mongoClient.GetDatabase("Catalog");
             dbCollection = database.GetCollection<Item>(collectionName);
         }
 
@@ -31,7 +30,7 @@ namespace Catalog.Service.Repositories
 
         public async Task CreateAsync(Item entity)
         {
-            if(entity == null)
+            if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
@@ -41,7 +40,7 @@ namespace Catalog.Service.Repositories
 
         public async Task UpdateAsync(Item entity)
         {
-            if(entity == null)
+            if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
