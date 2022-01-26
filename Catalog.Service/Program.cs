@@ -1,3 +1,4 @@
+using Catalog.Service.Entities;
 using Catalog.Service.Repositories;
 using Catalog.Service.Settings;
 using MongoDB.Bson.Serialization;
@@ -23,7 +24,11 @@ builder.Services.AddSingleton(serviceProvider => {
 });
 
 //Wire up the interface to repository class
-builder.Services.AddSingleton<IItemRepository, ItemRepository>();
+builder.Services.AddSingleton<IRepository<Item>>(provider => {
+    var database = provider.GetService<IMongoDatabase>();
+    return new MongoRepository<Item>(database, "items");
+});
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
