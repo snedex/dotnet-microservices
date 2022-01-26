@@ -13,7 +13,7 @@ namespace Catalog.Service.Repositories
 
         public ItemRepository()
         {
-            var mongoClient = new MongoClient("mongodb://192.168.0.183:/27017");
+            var mongoClient = new MongoClient("mongodb://192.168.0.183:27017");
             var database = mongoClient.GetDatabase("Catalog");
             dbCollection = database.GetCollection<Item>(collectionName);
         }
