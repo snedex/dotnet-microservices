@@ -39,7 +39,7 @@ public class ItemsController : ControllerBase
         await itemRepo.CreateAsync(item);
 
         //Includes the location in the response headers
-        return CreatedAtAction(nameof(GetByIdAsync), new { item.Id }, item);
+        return CreatedAtAction("GetById", new { item.Id }, item);
     }
 
     [HttpPut("{id}")]
