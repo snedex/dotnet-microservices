@@ -1,6 +1,6 @@
 using Catalog.Service.Data;
 using Catalog.Service.Entities;
-using Catalog.Service.Repositories;
+using Play.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Service.Controllers;
