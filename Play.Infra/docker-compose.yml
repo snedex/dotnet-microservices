@@ -1,0 +1,18 @@
+ #docker run -d --restart=always --name=mongodb -p 27017:27017 -v mongodbdata:/data/db mongo:4.4.12
+
+version: "3.8"
+
+#defines containers
+services:
+  mongo:
+    image: mongo:4.4.12
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/data/db:rw
+    restart:
+      always
+
+volumes:
+  mongodbdata:
