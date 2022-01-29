@@ -21,13 +21,13 @@ namespace Play.Inventory.Services.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<InventoryItemDTO>>> GetAsync(Guid userId)
+        public async Task<ActionResult<ActionResult<IEnumerable<InventoryItemDTO>>>> GetAsync(Guid userId)
         {
             if (userId == Guid.Empty)
                 return BadRequest();
 
             var catalogItems = await catalogClient.GetCatalogItemsAsync();
-
+            
             var items = (await repo.GetAllAsync(item => item.UserId == userId))
             .Select(i => {
                 var catalogItem = catalogItems.SingleOrDefault(ci => ci.Id == i.CatalogItemId);
