@@ -24,9 +24,21 @@ builder.Services.AddHttpClient<CatalogClient>(c => {
     5, 
     retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) + TimeSpan.FromMilliseconds(jitter.Next(1, 1000)), 
     onRetry: (outcome, timespan, retryattempt) => {
-        Console.WriteLine($"warn: Delaying for {timespan.TotalSeconds}, then retry #{retryattempt}");
+        Console.WriteLine($"warn: Delaying for {timespan.TotalSeconds}, then retry {retryattempt}");
     }
 ))
+//Adding a circuit breaker to avoid overwhelming the broken service and hitting exhaustion
+.AddTransientHttpErrorPolicy(p => p.Or<TimeoutRejectedException>().CircuitBreakerAsync(
+    3, 
+    TimeSpan.FromSeconds(15),
+    onBreak: (outcome, timespan) => {
+        Console.WriteLine($"warn: Breaking circuit for {timespan.TotalSeconds}s");
+    },
+    onReset: () => {
+        Console.WriteLine($"warn: Restoring connections");
+    }
+))
+//Default timeout policy
 .AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(1));
 
 builder.Services.AddControllers();
