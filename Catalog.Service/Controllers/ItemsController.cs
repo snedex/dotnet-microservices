@@ -1,7 +1,9 @@
 using Catalog.Service.Data;
 using Catalog.Service.Entities;
-using Play.Common;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using Play.Common;
+using Play.Catalog.Contracts;
 
 namespace Catalog.Service.Controllers;
 
@@ -11,8 +13,11 @@ public class ItemsController : ControllerBase
 {
     private readonly IRepository<Item> itemRepo;
 
-    public ItemsController(IRepository<Item> repo)
+    private readonly IPublishEndpoint publishEndpoint;
+
+    public ItemsController(IRepository<Item> repo, IPublishEndpoint publishEndpoint)
     {
+        this.publishEndpoint = publishEndpoint;
         this.itemRepo = repo;
     }
 
@@ -46,6 +51,8 @@ public class ItemsController : ControllerBase
 
         await itemRepo.CreateAsync(item);
 
+        await publishEndpoint.Publish(new CatalogItemCreated(item.Id, item.Name, item.Description));
+
         //Includes the location in the response headers
         return CreatedAtAction("GetById", new { item.Id }, item);
     }
@@ -64,6 +71,9 @@ public class ItemsController : ControllerBase
 
         await itemRepo.UpdateAsync(item);
 
+        await publishEndpoint.Publish(new CatalogItemUpdated(item.Id, item.Name, item.Description));
+
+
         return NoContent();
     }
 
@@ -76,6 +86,8 @@ public class ItemsController : ControllerBase
             return NotFound();
 
         await itemRepo.RemoveAsync(item.Id);
+
+        await publishEndpoint.Publish(new CatalogItemDeleted(item.Id));
 
         return NoContent();
     }
