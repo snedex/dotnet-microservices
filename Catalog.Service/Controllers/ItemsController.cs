@@ -11,8 +11,6 @@ public class ItemsController : ControllerBase
 {
     private readonly IRepository<Item> itemRepo;
 
-    private static int requestCount = 0;
-
     public ItemsController(IRepository<Item> repo)
     {
         this.itemRepo = repo;
@@ -21,21 +19,6 @@ public class ItemsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAsync()
     {
-        requestCount++;
-        Console.WriteLine($"request count {requestCount} starting");
-
-        if (requestCount <= 2)
-        {
-            Console.WriteLine($"request count {requestCount} Wait 10 seconds");
-            await Task.Delay(TimeSpan.FromSeconds(10));
-        }
-
-        if (requestCount <= 4)
-        {
-            Console.WriteLine($"request count {requestCount} 500");
-            return StatusCode(500);
-        }
-
         var items = (await itemRepo.GetAllAsync())
                 .Select(i => i.AsDTO());
 
