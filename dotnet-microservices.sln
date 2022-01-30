@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Service", "Catalog.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Common", "Play.Common\Play.Common.csproj", "{1FB19081-0827-4B99-8934-99CC4AA539FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Catalog.Contracts", "Play.Catalog.Contracts\Play.Catalog.Contracts.csproj", "{042955E2-21B8-4502-A1DE-FE30AD7F3590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play.Inventory.Services", "Play.Inventory.Services\Play.Inventory.Services.csproj", "{C85FA238-5336-41EE-918B-563ED520431D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{1FB19081-0827-4B99-8934-99CC4AA539FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FB19081-0827-4B99-8934-99CC4AA539FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FB19081-0827-4B99-8934-99CC4AA539FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{042955E2-21B8-4502-A1DE-FE30AD7F3590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042955E2-21B8-4502-A1DE-FE30AD7F3590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042955E2-21B8-4502-A1DE-FE30AD7F3590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042955E2-21B8-4502-A1DE-FE30AD7F3590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C85FA238-5336-41EE-918B-563ED520431D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C85FA238-5336-41EE-918B-563ED520431D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C85FA238-5336-41EE-918B-563ED520431D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C85FA238-5336-41EE-918B-563ED520431D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
