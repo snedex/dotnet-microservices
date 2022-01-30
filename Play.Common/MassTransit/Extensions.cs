@@ -1,4 +1,5 @@
 using System.Reflection;
+using GreenPipes;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,10 @@ namespace Play.Common.MassTransit
 
                     rabbitConfig.Host(settings.Host);
                     rabbitConfig.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(serviceSettings.ServiceName, false));
+                    //Add retry
+                    rabbitConfig.UseMessageRetry(retryConfig => {
+                        retryConfig.Interval(3, TimeSpan.FromSeconds(5));
+                    });
                 });
             });
 
