@@ -8,7 +8,7 @@
 // any syntax that is not yet supported by your targeted browsers.
 
 window.CATALOG_SERVICE_URL = 'https://localhost:7036'
-window.CATALOG_ITEMS_API_URL = `${window.CATALOG_SERVICE_URL}/api/items`
+window.CATALOG_ITEMS_API_URL = `${window.CATALOG_SERVICE_URL}/api/Items`
 window.INVENTORY_SERVICE_URL = 'https://localhost:7037'
-window.INVENTORY_ITEMS_API_URL = `${window.INVENTORY_SERVICE_URL}/api/items`
+window.INVENTORY_ITEMS_API_URL = `${window.INVENTORY_SERVICE_URL}/api/Items`
 window.RABBITMQ_URL = 'http://192.168.0.183:15672'
