@@ -14,5 +14,16 @@ services:
     restart:
       always
 
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmqdata:/var/lib/rabbitmq:rw
+    hostname: rabbitmq #specify a value here otherwise you get a rando name
+
 volumes:
   mongodbdata:
+  rabbitmqdata:
