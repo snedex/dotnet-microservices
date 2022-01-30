@@ -1,16 +1,15 @@
 using Play.Common;
-using Play.Inventory.Services;
-using Play.Inventory.Services.Clients;
+using Play.Common.MassTransit;
 using Play.Inventory.Services.Entites;
-using Polly;
-using Polly.Timeout;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddMongo()
-    .AddMongoRepository<InventoryItem>("inventoryItems");
+    .AddMongoRepository<InventoryItem>("inventoryItems")
+    .AddMongoRepository<CatalogItem>("catalogItems")
+    .AddMassTransitWithRabbitMQ();
 
 //Refactored for reference
 //HttpClientSetup.Configure(builder.Services);
