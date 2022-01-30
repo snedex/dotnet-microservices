@@ -2,6 +2,8 @@ using Play.Common.MassTransit;
 using Play.Common.MongoDB;
 using Play.Inventory.Services.Entites;
 
+const string AllowedOriginSetting = "AllowedOrigin";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -26,6 +28,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(config => {
+        config.WithOrigins(app.Configuration.GetValue(typeof(string), AllowedOriginSetting).ToString())
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 }
 
 app.UseHttpsRedirection();
