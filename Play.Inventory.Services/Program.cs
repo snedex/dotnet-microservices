@@ -1,5 +1,5 @@
-using Play.Common;
 using Play.Common.MassTransit;
+using Play.Common.MongoDB;
 using Play.Inventory.Services.Entites;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMongo()
     .AddMongoRepository<InventoryItem>("inventoryItems")
     .AddMongoRepository<CatalogItem>("catalogItems")
-    .AddMassTransitWithRabbitMQ();
+    .AddMassTransitWithRabbitMq();
 
 //Refactored for reference
 //HttpClientSetup.Configure(builder.Services);

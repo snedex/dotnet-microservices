@@ -1,12 +1,12 @@
 using Catalog.Service.Entities;
-using Play.Common;
 using Play.Common.MassTransit;
+using Play.Common.MongoDB;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMongo()
     .AddMongoRepository<Item>("items")
-    .AddMassTransitWithRabbitMQ();
+    .AddMassTransitWithRabbitMq();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
