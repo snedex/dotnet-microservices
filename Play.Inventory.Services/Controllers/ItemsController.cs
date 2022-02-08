@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Play.Common;
@@ -9,9 +11,9 @@ namespace Play.Inventory.Services.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class ItemsController : ControllerBase
     {
+        private const string AdminRole = "Admin";
         private readonly IRepository<InventoryItem> inventoryRepo;
         private readonly IRepository<CatalogItem> itemRepo;
 
@@ -22,11 +24,23 @@ namespace Play.Inventory.Services.Controllers
         }
 
         [HttpGet("{userId}")]
+        [Authorize]
         public async Task<ActionResult<ActionResult<IEnumerable<InventoryItemDTO>>>> GetAsync(Guid userId)
         {
             if (userId == Guid.Empty)
                 return BadRequest();
 
+            //check the user has permission to see this
+            var currentUserId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+
+            if(string.IsNullOrEmpty(currentUserId))
+                return Forbid();
+
+            if(Guid.Parse(currentUserId) != userId)
+            {
+                if(!User.IsInRole(AdminRole))
+                    return Forbid();
+            }
 
             var inventoryItems = await inventoryRepo.GetAllAsync(item => item.UserId == userId);
             var itemIds = inventoryItems.Select(i => i.CatalogItemId);
@@ -42,6 +56,7 @@ namespace Play.Inventory.Services.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AdminRole)]
         public async Task<ActionResult> PostAsync(GrantItemsDTO grantItem)
         {
             if (grantItem == null || grantItem.CatalogItemId == Guid.Empty)
