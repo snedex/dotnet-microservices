@@ -31,6 +31,7 @@ builder.Services.AddIdentityServer(options => {
     })
     .AddAspNetIdentity<ApplicationUser>()
     .AddInMemoryApiScopes(idSettings.ApiScopes)
+    .AddInMemoryApiResources(idSettings.ApiResources)
     .AddInMemoryClients(idSettings.Clients)
     .AddInMemoryIdentityResources(idSettings.Resources)
     .AddDeveloperSigningCredential();
