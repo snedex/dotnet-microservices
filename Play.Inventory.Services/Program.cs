@@ -1,5 +1,6 @@
+using Play.Common;
+using Play.Common.Identity;
 using Play.Common.MassTransit;
-using Play.Common.MongoDB;
 using Play.Inventory.Services.Entites;
 
 const string AllowedOriginSetting = "AllowedOrigin";
@@ -11,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMongo()
     .AddMongoRepository<InventoryItem>("inventoryItems")
     .AddMongoRepository<CatalogItem>("catalogItems")
-    .AddMassTransitWithRabbitMq();
+    .AddMassTransitWithRabbitMQ()
+    .AddJwtBearerAuthentication();
 
 //Refactored for reference
 //HttpClientSetup.Configure(builder.Services);
@@ -37,6 +39,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
