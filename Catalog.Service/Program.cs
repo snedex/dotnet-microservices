@@ -1,7 +1,8 @@
 using Catalog.Service.Entities;
-using Play.Common;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
+using Play.Common.MongoDB;
+using Play.Common.Settings;
 
 const string AllowedOriginSetting = "AllowedOrigin";
 

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
@@ -35,6 +33,9 @@ builder.Services.AddIdentityServer(options => {
     .AddInMemoryClients(idSettings.Clients)
     .AddInMemoryIdentityResources(idSettings.Resources)
     .AddDeveloperSigningCredential();
+
+//Protecting itself
+builder.Services.AddLocalApiAuthentication();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
