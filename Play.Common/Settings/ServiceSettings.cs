@@ -1,4 +1,4 @@
-namespace Play.Common
+namespace Play.Common.Settings
 {
     //Represents the ServiceSettings in appsettings.json
     public class ServiceSettings

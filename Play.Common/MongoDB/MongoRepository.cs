@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using MongoDB.Driver;
 
-namespace Play.Common
+namespace Play.Common.MongoDB
 {
 
     public class MongoRepository<T> : IRepository<T> where T : IEntity
