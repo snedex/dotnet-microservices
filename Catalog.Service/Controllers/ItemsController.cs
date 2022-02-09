@@ -10,7 +10,6 @@ namespace Catalog.Service.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = AdminRole)]
 public class ItemsController : ControllerBase
 {
     private const string AdminRole = "Admin";
@@ -25,6 +24,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Policies.Read)]
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAsync()
     {
         var items = (await itemRepo.GetAllAsync())
@@ -34,6 +34,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Policies.Read)]
     public async Task<ItemDTO> GetByIdAsync(Guid id)
     {
         var item = await itemRepo.GetAsync(id);
@@ -41,6 +42,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policies.Write)]
     public async Task<ActionResult<ItemDTO>> PostAsync(CreateItemDTO createItem)
     {
         var item = new Item()
@@ -61,6 +63,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Policies.Write)]
     public async Task<IActionResult> PutAsync(Guid id, UpdateItemDTO updateItem)
     {
         var item = await itemRepo.GetAsync(id);
@@ -81,6 +84,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Policies.Write)]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         var item = await itemRepo.GetAsync(id);

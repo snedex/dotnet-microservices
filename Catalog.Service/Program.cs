@@ -1,3 +1,4 @@
+using Catalog.Service;
 using Catalog.Service.Entities;
 using Play.Common.Identity;
 using Play.Common.MassTransit;
@@ -15,6 +16,17 @@ builder.Services.AddMongo()
 
 var serviceSettings = builder.Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
+//configure the policies for access
+builder.Services.AddAuthorization( options => {
+   options.AddPolicy(Policies.Read, policy => {
+       policy.RequireRole("Admin");
+       policy.RequireClaim("scope", "catalog.readaccess", "catalog.fullaccess");
+   });
+   options.AddPolicy(Policies.Write, policy => {
+       policy.RequireRole("Admin");
+       policy.RequireClaim("scope", "catalog.writeaccess");
+   });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
